@@ -313,6 +313,9 @@ a.stage:focus-visible .start {
 .foundation .stage-desc {
   max-width: 40rem;
 }
+.foundation .start {
+  grid-column: 2;
+}
 
 /* Footer */
 
@@ -383,6 +386,9 @@ a.stage:focus-visible .start {
   .foundation .portrait {
     grid-row: auto;
     margin-bottom: 0.5rem;
+  }
+  .foundation .start {
+    grid-column: auto;
   }
 }
 
