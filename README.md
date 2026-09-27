@@ -5,6 +5,7 @@ in the same NES Mega Man style as [greed](../greed). It lists the projects:
 
 - [greed.bubbletech.io](https://greed.bubbletech.io)
 - [badthingsforpets.com](https://badthingsforpets.com)
+- [sloth.bubbletech.io](https://sloth.bubbletech.io)
 
 `https://www.bubbletech.io/*` redirects (301) to `https://bubbletech.io/*`.
 
