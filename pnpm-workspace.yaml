@@ -1,0 +1,20 @@
+packages:
+  - "infra/*"
+allowBuilds:
+  '@bubltec/mycota-cdk': true
+  esbuild: true
+# Pin exact versions when adding dependencies. Kept in sync with .npmrc.
+saveExact: true
+# Fail (not just warn) when the running Node does not satisfy `engines` (Node 26).
+# Only this setting works: pnpm 11 ignores `engine-strict` in .npmrc.
+engineStrict: true
+# Native optional deps (oxlint, esbuild) for both Mac arches, same as greed and btfp.
+supportedArchitectures:
+  os:
+    - current
+  cpu:
+    - arm64
+    - x64
+# First-party packages published by our own CI; exempt from the release-age gate.
+minimumReleaseAgeExclude:
+  - '@bubltec/*'

@@ -1,0 +1,367 @@
+/*
+ * Same palette as greed: the NES (2C02) colours the 1990s Mega Man games are
+ * drawn with. Black stage backdrop, Mega Man's two blues, the cyan highlight,
+ * the yellow of the energy bar, and the red used for damage.
+ */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('/fonts/press-start-2p.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --void: #000000;
+  --night: #00003c;
+  --deep: #0000bc;
+  --mega: #0070ec;
+  --sky: #3cbcfc;
+  --ice: #a4e4fc;
+  --bolt: #f8b800;
+  --cream: #fce4a0;
+  --hurt: #f83800;
+  --snow: #fcfcfc;
+  --steel: #bcbcbc;
+  --slate: #747474;
+
+  --pixel: 'Press Start 2P', ui-monospace, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--void);
+  color: var(--snow);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background-color: var(--void);
+  /* A sparse, pixel-sharp starfield. */
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, var(--steel) 99%, transparent),
+    radial-gradient(1px 1px at 140px 90px, var(--slate) 99%, transparent),
+    radial-gradient(2px 2px at 90px 160px, var(--mega) 99%, transparent),
+    radial-gradient(1px 1px at 190px 210px, var(--steel) 99%, transparent);
+  background-size: 240px 240px;
+}
+
+::selection {
+  background: var(--bolt);
+  color: var(--void);
+}
+
+a {
+  color: var(--ice);
+  text-decoration: underline;
+  text-decoration-color: var(--mega);
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--snow);
+  text-decoration-color: var(--bolt);
+}
+:focus-visible {
+  outline: 2px solid var(--bolt);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 16px;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  color: var(--sky);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+.sky {
+  color: var(--sky);
+}
+
+/* Hero */
+
+.hero {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+  padding: 4rem 0 3rem;
+  border-bottom: 2px solid var(--mega);
+}
+
+/* Mega Man's life meter: a column of yellow ticks in a black frame. */
+.energy {
+  flex: none;
+  width: 14px;
+  border: 2px solid var(--snow);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--cream) 0 2px,
+    var(--bolt) 2px 4px,
+    var(--void) 4px 6px
+  );
+  background-clip: content-box;
+  padding: 2px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin: 1rem 0 1.25rem;
+  font-family: var(--pixel);
+  font-weight: 400;
+  font-size: clamp(1.125rem, 6vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-shadow: 0.1em 0.1em 0 var(--deep);
+}
+
+.bubble {
+  width: 1.4em;
+  height: 1.4em;
+  flex: none;
+  animation: bob 1.6s steps(2, end) infinite;
+}
+
+.tagline {
+  margin: 0 0 1.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--steel);
+}
+
+.links {
+  margin: 0;
+}
+
+.btn {
+  font-family: var(--pixel);
+  font-size: 0.625rem;
+  line-height: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--sky);
+  color: var(--snow);
+  background: var(--deep);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.btn:hover {
+  background: var(--mega);
+  color: var(--snow);
+}
+.btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Stage select */
+
+main {
+  flex: 1;
+  padding: 2.5rem 0 3rem;
+}
+
+.select-title {
+  margin-bottom: 1.25rem;
+  color: var(--bolt);
+}
+
+.stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  height: 100%;
+  padding: 1.25rem;
+  border: 2px solid var(--mega);
+  background: var(--void);
+  color: var(--snow);
+  text-decoration: none;
+  box-shadow: inset 0 0 0 2px var(--void), inset 0 0 0 4px var(--deep);
+}
+
+a.stage:hover,
+a.stage:focus-visible {
+  color: var(--snow);
+  border-color: var(--bolt);
+  box-shadow: inset 0 0 0 2px var(--void), inset 0 0 0 4px var(--bolt);
+  outline: none;
+}
+
+.portrait {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  margin-bottom: 0.5rem;
+  border: 2px solid var(--sky);
+  background: var(--night);
+}
+.portrait svg {
+  width: 64px;
+  height: 64px;
+}
+a.stage:hover .portrait,
+a.stage:focus-visible .portrait {
+  animation: flash 0.24s steps(1, end) infinite;
+}
+
+.stage-name {
+  font-family: var(--pixel);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.stage-host {
+  font-family: var(--pixel);
+  font-size: 0.5rem;
+  color: var(--sky);
+  word-break: break-all;
+}
+
+.stage-desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--steel);
+}
+
+.start {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  color: var(--bolt);
+  visibility: hidden;
+}
+a.stage:hover .start,
+a.stage:focus-visible .start {
+  visibility: visible;
+  animation: blink 1s steps(1, end) infinite;
+}
+
+.locked {
+  border-style: dashed;
+  border-color: var(--slate);
+  box-shadow: none;
+}
+.locked .portrait {
+  border-color: var(--slate);
+  background: var(--void);
+}
+.locked .stage-name,
+.locked .stage-host {
+  color: var(--slate);
+}
+.locked .stage-desc {
+  color: var(--slate);
+}
+.qmark {
+  font-family: var(--pixel);
+  font-size: 2rem;
+  color: var(--slate);
+}
+
+/* Footer */
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
+  border-top: 2px solid var(--deep);
+  font-size: 0.8125rem;
+  color: var(--slate);
+}
+
+/* 404 */
+
+.over {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  text-align: center;
+  padding: 4rem 0;
+}
+.over h1 {
+  margin: 0;
+  font-family: var(--pixel);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 7vw, 2.5rem);
+  color: var(--hurt);
+  text-shadow: 0.1em 0.1em 0 var(--night);
+}
+.over p {
+  margin: 0;
+  color: var(--steel);
+}
+
+@keyframes blink {
+  50% {
+    visibility: hidden;
+  }
+}
+@keyframes flash {
+  50% {
+    border-color: var(--bolt);
+    background: var(--deep);
+  }
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 40rem) {
+  .hero {
+    padding: 2.5rem 0 2rem;
+    gap: 1rem;
+  }
+  .energy {
+    width: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}
