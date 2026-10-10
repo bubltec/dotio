@@ -13,7 +13,7 @@ in the same NES Mega Man style as [greed](../greed). It lists the projects:
 
 ```
 site/        The whole site: plain HTML + CSS, no build step
-infra/cdk    DotioCi (mycota GithubActionsDeployRole), DotioSite (S3 + CloudFront + Route53)
+infra/cdk    DotioCi (mycota GithubActionsDeployRole), DotioWaf (shared web ACL), DotioSite (S3 + CloudFront + Route53)
 docs/        Deployment
 ```
 

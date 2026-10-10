@@ -5,8 +5,9 @@ import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { describe, expect, it } from 'vitest';
 import { CiStack } from '../lib/ci-stack.js';
-import { DOMAIN, HOSTED_ZONE_ID, WWW_DOMAIN } from '../lib/config.js';
+import { DOMAIN, HOSTED_ZONE_ID, WAF_ARN_PARAMETER, WAF_SITES, WWW_DOMAIN } from '../lib/config.js';
 import { SITE_DIR, SiteStack, viewerRequestCode } from '../lib/site-stack.js';
+import { WafStack } from '../lib/waf-stack.js';
 
 const env = { account: '123456789012', region: 'us-east-1' };
 
@@ -17,6 +18,7 @@ function synthSite() {
     domainName: DOMAIN,
     wwwDomainName: WWW_DOMAIN,
     hostedZoneId: HOSTED_ZONE_ID,
+    webAclArn: 'arn:aws:wafv2:us-east-1:123456789012:global/webacl/bubbletech-shared/abc',
   });
   return Template.fromStack(stack);
 }
@@ -65,6 +67,12 @@ describe('DotioSite', () => {
           FunctionAssociations: [Match.objectLike({ EventType: 'viewer-request' })],
         }),
       }),
+    });
+  });
+
+  it('attaches the shared web ACL', () => {
+    template.hasResourceProperties('AWS::CloudFront::Distribution', {
+      DistributionConfig: Match.objectLike({ WebACLId: Match.stringLikeRegexp('bubbletech-shared') }),
     });
   });
 
@@ -124,5 +132,49 @@ describe('DotioCi', () => {
         ],
       }),
     });
+  });
+});
+
+describe('DotioWaf', () => {
+  const app = new cdk.App();
+  const template = Template.fromStack(
+    new WafStack(app, 'DotioWaf', { env, sites: WAF_SITES, arnParameterName: WAF_ARN_PARAMETER }),
+  );
+
+  it('creates exactly one CLOUDFRONT web ACL that allows by default', () => {
+    template.resourceCountIs('AWS::WAFv2::WebACL', 1);
+    template.hasResourceProperties('AWS::WAFv2::WebACL', {
+      Scope: 'CLOUDFRONT',
+      DefaultAction: { Allow: {} },
+    });
+  });
+
+  it('rate limits each site by IP, scoped to its hosts', () => {
+    const acls = template.findResources('AWS::WAFv2::WebACL');
+    const rules = Object.values(acls)[0]!.Properties.Rules as Array<{
+      Name: string;
+      Statement: { RateBasedStatement: { Limit: number; AggregateKeyType: string; ScopeDownStatement: unknown } };
+    }>;
+    expect(rules.map((r) => r.Name)).toEqual(WAF_SITES.map((s) => `RateLimit-${s.name}`));
+    rules.forEach((rule, i) => {
+      expect(rule.Statement.RateBasedStatement.Limit).toBe(WAF_SITES[i]!.limit);
+      expect(rule.Statement.RateBasedStatement.AggregateKeyType).toBe('IP');
+      expect(rule.Statement.RateBasedStatement.ScopeDownStatement).toBeDefined();
+    });
+  });
+
+  it('publishes the ARN for the other repos', () => {
+    template.hasResourceProperties('AWS::SSM::Parameter', { Name: WAF_ARN_PARAMETER, Type: 'String' });
+  });
+
+  it('rejects a site with no hosts', () => {
+    expect(
+      () =>
+        new WafStack(new cdk.App(), 'Bad', {
+          env,
+          sites: [{ name: 'x', hosts: [], limit: 100 }],
+          arnParameterName: '/x',
+        }),
+    ).toThrow(/at least one host/);
   });
 });

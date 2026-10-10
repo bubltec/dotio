@@ -40,8 +40,8 @@ jobs:
         working-directory: infra/cdk
         run: |
           {
-            echo '## DotioSite + DotioCi diff'; echo '```'
-            npx cdk diff DotioSite DotioCi 2>&1 || true
+            echo '## DotioWaf + DotioSite + DotioCi diff'; echo '```'
+            npx cdk diff DotioWaf DotioSite DotioCi 2>&1 || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -67,4 +67,4 @@ jobs:
           aws-region: us-east-1
       - name: cdk deploy
         working-directory: infra/cdk
-        run: npx cdk deploy DotioCi DotioSite --require-approval never
+        run: npx cdk deploy DotioCi DotioWaf DotioSite --require-approval never
