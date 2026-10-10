@@ -19,6 +19,15 @@ export interface WafStackProps extends cdk.StackProps {
   arnParameterName: string;
 }
 
+const RATE_LIMITED_BODY_KEY = 'rate-limited';
+/** Rate rules look back 5 minutes, so that is roughly how long a blocked client should wait. */
+const RETRY_AFTER_SECONDS = 300;
+export const RATE_LIMITED_HTML =
+  '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
+  '<title>Slow down</title><body style="font-family:system-ui,sans-serif;max-width:32rem;margin:15vh auto;padding:0 16px">' +
+  '<h1>Too many requests</h1><p>You have made a lot of requests in a short time. ' +
+  'Please wait a few minutes and try again.</p></body>';
+
 /** Rule fragments become metric names, so keep them to what CloudWatch accepts. */
 const NAME_RE = /^[A-Za-z0-9_-]+$/;
 
@@ -51,7 +60,16 @@ export class WafStack extends cdk.Stack {
       return {
         name: `RateLimit-${site.name}`,
         priority,
-        action: { block: {} },
+        // A readable 429 with Retry-After instead of the default bare 403.
+        action: {
+          block: {
+            customResponse: {
+              responseCode: 429,
+              customResponseBodyKey: RATE_LIMITED_BODY_KEY,
+              responseHeaders: [{ name: 'Retry-After', value: String(RETRY_AFTER_SECONDS) }],
+            },
+          },
+        },
         statement: {
           rateBasedStatement: {
             limit: site.limit,
@@ -71,6 +89,12 @@ export class WafStack extends cdk.Stack {
       name: 'bubbletech-shared',
       scope: 'CLOUDFRONT',
       defaultAction: { allow: {} },
+      customResponseBodies: {
+        [RATE_LIMITED_BODY_KEY]: {
+          contentType: 'TEXT_HTML',
+          content: RATE_LIMITED_HTML,
+        },
+      },
       visibilityConfig: {
         cloudWatchMetricsEnabled: true,
         metricName: 'bubbletech-shared-waf',

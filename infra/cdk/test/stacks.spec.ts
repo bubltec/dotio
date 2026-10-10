@@ -163,6 +163,25 @@ describe('DotioWaf', () => {
     });
   });
 
+  it('answers blocked requests with a readable 429 and Retry-After, not a bare 403', () => {
+    template.hasResourceProperties('AWS::WAFv2::WebACL', {
+      CustomResponseBodies: { 'rate-limited': Match.objectLike({ ContentType: 'TEXT_HTML' }) },
+      Rules: Match.arrayWith([
+        Match.objectLike({
+          Action: {
+            Block: {
+              CustomResponse: Match.objectLike({
+                ResponseCode: 429,
+                CustomResponseBodyKey: 'rate-limited',
+                ResponseHeaders: [{ Name: 'Retry-After', Value: '300' }],
+              }),
+            },
+          },
+        }),
+      ]),
+    });
+  });
+
   it('publishes the ARN for the other repos', () => {
     template.hasResourceProperties('AWS::SSM::Parameter', { Name: WAF_ARN_PARAMETER, Type: 'String' });
   });
