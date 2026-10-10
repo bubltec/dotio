@@ -5,6 +5,7 @@ Same account and mycota pattern as greed, btfp, grtzplz and political-sloth.
 | Stack | Deployed by | What |
 | --- | --- | --- |
 | `DotioCi` | laptop first, then the deploy job | `dotio-gha-deploy` OIDC role (mycota `GithubActionsDeployRole`) |
+| `DotioWaf` | deploy job, after approval | the one shared CLOUDFRONT web ACL (per-site, per-IP rate rules matched by Host); ARN published to SSM `/bubbletech/waf/web-acl-arn` for greed, political-sloth and badthingsforpets prod to attach |
 | `DotioSite` | deploy job, after approval | private S3 bucket + CloudFront (OAC), ACM cert for apex + www, A/AAAA aliases for both |
 
 The `bubbletech.io` hosted zone is **not** created here. political-sloth's `SlothDns` owns it

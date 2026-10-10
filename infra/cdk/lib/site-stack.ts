@@ -17,6 +17,8 @@ export interface SiteStackProps extends cdk.StackProps {
   domainName: string;
   wwwDomainName: string;
   hostedZoneId: string;
+  /** Shared CLOUDFRONT web ACL (WafStack). */
+  webAclArn: string;
 }
 
 /**
@@ -109,6 +111,7 @@ export class SiteStack extends cdk.Stack {
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       domainNames: [domainName, wwwDomainName],
       certificate,
+      webAclId: props.webAclArn,
       defaultRootObject: 'index.html',
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(bucket),
