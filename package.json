@@ -12,7 +12,8 @@
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm -r run test",
     "cdk": "pnpm --filter @dotio/infra run cdk",
-    "dev": "python3 -m http.server 5180 --directory site"
+    "dev": "node scripts/copy-ui.mjs && python3 -m http.server 5180 --directory site",
+    "copy-ui": "node scripts/copy-ui.mjs"
   },
   "devDependencies": {
     "oxlint": "1.85.0",

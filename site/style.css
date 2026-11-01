@@ -1,7 +1,7 @@
 /*
- * Same palette as greed: the NES (2C02) colours the 1990s Mega Man games are
- * drawn with. Black stage backdrop, Mega Man's two blues, the cyan highlight,
- * the yellow of the energy bar, and the red used for damage.
+ * Page art for bubbletech.io. Shared color, type, buttons and frame come from
+ * @bubltec/uiux (copied into /ui before dev and deploy). This file keeps the
+ * starfield, the energy meter, and the stage-select cards.
  */
 @font-face {
   font-family: 'Press Start 2P';
@@ -11,88 +11,14 @@
   font-display: swap;
 }
 
-:root {
-  color-scheme: dark;
-  --void: #000000;
-  --night: #00003c;
-  --deep: #0000bc;
-  --mega: #0070ec;
-  --sky: #3cbcfc;
-  --ice: #a4e4fc;
-  --bolt: #f8b800;
-  --cream: #fce4a0;
-  --hurt: #f83800;
-  --snow: #fcfcfc;
-  --steel: #bcbcbc;
-  --slate: #747474;
-
-  --pixel: 'Press Start 2P', ui-monospace, monospace;
-  --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  background: var(--void);
-  color: var(--snow);
-  font-family: var(--sans);
-  -webkit-font-smoothing: antialiased;
-}
-
 body {
-  margin: 0;
-  min-height: 100dvh;
-  background-color: var(--void);
-  /* A sparse, pixel-sharp starfield. */
+  /* A sparse, pixel-sharp starfield over the theme background. */
   background-image:
     radial-gradient(1px 1px at 20px 30px, var(--steel) 99%, transparent),
     radial-gradient(1px 1px at 140px 90px, var(--slate) 99%, transparent),
     radial-gradient(2px 2px at 90px 160px, var(--mega) 99%, transparent),
     radial-gradient(1px 1px at 190px 210px, var(--steel) 99%, transparent);
   background-size: 240px 240px;
-}
-
-::selection {
-  background: var(--bolt);
-  color: var(--void);
-}
-
-a {
-  color: var(--ice);
-  text-decoration: underline;
-  text-decoration-color: var(--mega);
-  text-underline-offset: 3px;
-}
-a:hover {
-  color: var(--snow);
-  text-decoration-color: var(--bolt);
-}
-:focus-visible {
-  outline: 2px solid var(--bolt);
-  outline-offset: 3px;
-}
-
-.wrap {
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 0 16px;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  font-family: var(--pixel);
-  font-size: 0.5625rem;
-  font-weight: 400;
-  color: var(--sky);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin: 0;
 }
 
 .sky {
@@ -129,7 +55,7 @@ a:hover {
   align-items: center;
   gap: 0.75em;
   margin: 1rem 0 1.25rem;
-  font-family: var(--pixel);
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(1.125rem, 6vw, 2.75rem);
   line-height: 1.2;
@@ -155,23 +81,6 @@ a:hover {
   margin: 0;
 }
 
-.btn {
-  font-family: var(--pixel);
-  font-size: 0.625rem;
-  line-height: 1;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--sky);
-  color: var(--snow);
-  background: var(--deep);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-.btn:hover {
-  background: var(--mega);
-  color: var(--snow);
-}
 .btn svg {
   width: 14px;
   height: 14px;
@@ -239,13 +148,13 @@ a.stage:focus-visible .portrait {
 }
 
 .stage-name {
-  font-family: var(--pixel);
+  font-family: var(--font-display);
   font-size: 0.75rem;
   line-height: 1.6;
 }
 
 .stage-host {
-  font-family: var(--pixel);
+  font-family: var(--font-display);
   font-size: 0.5rem;
   color: var(--sky);
   word-break: break-all;
@@ -260,7 +169,7 @@ a.stage:focus-visible .portrait {
 .start {
   margin-top: auto;
   padding-top: 0.5rem;
-  font-family: var(--pixel);
+  font-family: var(--font-display);
   font-size: 0.5625rem;
   color: var(--bolt);
   visibility: hidden;
@@ -288,7 +197,7 @@ a.stage:focus-visible .start {
   color: var(--slate);
 }
 .qmark {
-  font-family: var(--pixel);
+  font-family: var(--font-display);
   font-size: 2rem;
   color: var(--slate);
 }
@@ -317,19 +226,6 @@ a.stage:focus-visible .start {
   grid-column: 2;
 }
 
-/* Footer */
-
-.foot {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 1.25rem 0;
-  border-top: 2px solid var(--deep);
-  font-size: 0.8125rem;
-  color: var(--slate);
-}
-
 /* 404 */
 
 .over {
@@ -344,7 +240,7 @@ a.stage:focus-visible .start {
 }
 .over h1 {
   margin: 0;
-  font-family: var(--pixel);
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(1.25rem, 7vw, 2.5rem);
   color: var(--hurt);
