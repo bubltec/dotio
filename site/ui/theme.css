@@ -1,0 +1,571 @@
+/*
+ * Component classes. Colors, type, radius and border width come from the theme
+ * (themes/nes.css or another file that sets the same custom properties).
+ * Load a theme before this file.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+::selection {
+  background: var(--focus);
+  color: var(--bg);
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--ink);
+  text-decoration-color: var(--focus);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.pixel {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+.label,
+.text-label {
+  font-family: var(--font-display);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.text-display {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.text-title {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  color: var(--accent);
+}
+.text-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.text-muted {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.panel,
+.card {
+  border: var(--border) solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius);
+  color: var(--ink);
+}
+
+.btn {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  line-height: 1;
+  padding: 0.75rem 1rem;
+  border: var(--border) solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: var(--fill);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--fill-hover);
+  color: var(--ink);
+}
+.btn:disabled,
+.btn[aria-busy='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-sm {
+  font-size: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+.btn-lg {
+  font-size: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+}
+.btn-ghost:hover {
+  background: var(--fill-hover);
+  color: var(--ink);
+}
+.btn-danger {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.btn-danger:hover {
+  background: var(--danger);
+  color: var(--bg);
+}
+
+.badge {
+  font-family: var(--font-display);
+  display: inline-block;
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.125rem 0.375rem;
+  font-size: 0.5rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.badge-ok {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.badge-warn {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+.badge-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.badge-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.notice {
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+.notice-warn {
+  border-color: var(--warn);
+  background: var(--warn);
+  color: var(--bg);
+}
+.notice-error {
+  border-color: var(--danger);
+  color: var(--ink);
+}
+.notice-error .text-label {
+  color: var(--danger);
+}
+.notice-preview {
+  background: var(--focus);
+  color: var(--bg);
+  border: none;
+  border-radius: 0;
+  font-family: var(--font-display);
+  font-size: 0.5625rem;
+}
+
+.app-frame {
+  margin-inline: auto;
+  display: flex;
+  min-height: 100dvh;
+  max-width: 64rem;
+  flex-direction: column;
+  padding-inline: 1rem;
+}
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: var(--border) solid var(--line);
+  padding-block: 1.25rem;
+}
+.app-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+.app-header-brand a {
+  text-decoration: none;
+}
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+.app-nav a {
+  font-family: var(--font-display);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5625rem;
+  text-decoration: none;
+  color: var(--link);
+}
+.app-nav a[aria-current='page'] {
+  background: var(--line);
+  color: var(--ink);
+}
+.app-main {
+  flex: 1;
+  padding-block: 2rem;
+}
+.app-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-top: var(--border) solid var(--fill);
+  padding-block: 1.25rem;
+  font-size: 0.75rem;
+  color: var(--faint, var(--muted));
+}
+.app-section-narrow {
+  max-width: 48rem;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.control,
+input.control,
+textarea.control,
+select.control {
+  background: var(--bg);
+  color: var(--ink);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.625rem;
+  width: 100%;
+  font: inherit;
+}
+.control:focus,
+input.control:focus,
+textarea.control:focus,
+select.control:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.control::placeholder {
+  color: var(--faint, var(--muted));
+}
+.control.control-auto,
+select.control.control-auto {
+  width: auto;
+}
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']):not([type='range']),
+textarea,
+select {
+  background: var(--bg);
+  color: var(--ink);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.625rem;
+  width: 100%;
+  font: inherit;
+}
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']):focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+/* Engines that do paint <option> still need a contrasting pair. The theme's
+   color-scheme on select is what actually flips the WebKit menu. */
+select option,
+select optgroup {
+  background-color: var(--bg);
+  color: var(--ink);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--faint, var(--muted));
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.field-hint,
+.field-error {
+  font-size: 0.75rem;
+}
+.field-hint {
+  color: var(--faint, var(--muted));
+}
+.field-error {
+  color: var(--danger);
+}
+.field-reserve {
+  visibility: hidden;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+.chip {
+  font-family: var(--font-display);
+  border: var(--border) solid var(--fill);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  padding: 0.25rem 0.375rem;
+  font-size: 0.4375rem;
+  cursor: pointer;
+}
+.chip[aria-pressed='true'] {
+  border-color: var(--focus);
+  background: var(--focus);
+  color: var(--bg);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.switch input {
+  appearance: none;
+  width: 2.25rem;
+  height: 1.25rem;
+  margin: 0;
+  border: var(--border) solid var(--line);
+  border-radius: calc(var(--radius) + 999px);
+  background: var(--bg);
+  position: relative;
+}
+.switch input::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 0.85rem;
+  height: 0.85rem;
+  background: var(--muted);
+}
+.switch input:checked {
+  background: var(--fill);
+  border-color: var(--accent);
+}
+.switch input:checked::after {
+  left: auto;
+  right: 1px;
+  background: var(--focus);
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.segmented label {
+  cursor: pointer;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.segmented label:has(:checked) {
+  background: var(--fill);
+  color: var(--ink);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dialog {
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 1.25rem;
+  max-width: min(30rem, calc(100vw - 2rem));
+  width: 100%;
+}
+.dialog-wide {
+  max-width: min(44rem, calc(100vw - 2rem));
+}
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--ink) 40%, transparent);
+}
+.dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.dialog-title {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  margin: 0;
+}
+.dialog-desc {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.dialog-body {
+  margin-top: 1.25rem;
+}
+
+.drawer {
+  border: none;
+  border-right: var(--border) solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  margin: 0;
+  padding: 0;
+  height: 100dvh;
+  max-height: 100dvh;
+  width: min(20rem, calc(100vw - 2rem));
+  position: fixed;
+  inset: 0 auto 0 0;
+}
+.drawer::backdrop {
+  background: color-mix(in srgb, var(--ink) 40%, transparent);
+}
+.drawer-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  border-bottom: var(--border) solid var(--line);
+}
+.tab {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: var(--border) solid transparent;
+  color: var(--muted);
+  padding: 0.75rem;
+  cursor: pointer;
+}
+.tab[aria-selected='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+.tab-panel {
+  padding-top: 1rem;
+}
+
+.toasts {
+  pointer-events: none;
+  position: fixed;
+  inset-inline: 0;
+  bottom: 1rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 1rem;
+}
+.toast {
+  pointer-events: auto;
+  max-width: 28rem;
+  border-radius: var(--radius);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  background: var(--ink);
+  color: var(--bg);
+}
+.toast-error {
+  background: var(--danger);
+  color: var(--bg);
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  display: inline-block;
+}
+
+.pager {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.pager-count {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  color: var(--faint, var(--muted));
+}
+
+@media (min-width: 40rem) {
+  .app-frame {
+    padding-inline: 1.5rem;
+  }
+}

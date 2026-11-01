@@ -1,0 +1,49 @@
+/*
+ * NES (2C02) colours the 1990s Mega Man games are drawn with.
+ * Black stage, Mega Man's blues, the cyan highlight, energy-bar yellow, damage red.
+ */
+:root {
+  --void: #000000;
+  --night: #00003c;
+  --deep: #0000bc;
+  --mega: #0070ec;
+  --sky: #3cbcfc;
+  --ice: #a4e4fc;
+  --bolt: #f8b800;
+  --cream: #fce4a0;
+  --hurt: #f83800;
+  --snow: #fcfcfc;
+  --steel: #bcbcbc;
+  --slate: #747474;
+
+  --bg: var(--void);
+  --surface: var(--void);
+  --ink: var(--snow);
+  --muted: var(--steel);
+  --faint: var(--slate);
+  --line: var(--mega);
+  --accent: var(--sky);
+  --accent-ink: var(--snow);
+  --danger: var(--hurt);
+  --focus: var(--bolt);
+  --ok: var(--ice);
+  --warn: var(--bolt);
+  --fill: var(--deep);
+  --fill-hover: var(--mega);
+  --link: var(--ice);
+  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Press Start 2P', ui-monospace, monospace;
+  --radius: 0;
+  --border: 2px;
+
+  color-scheme: dark;
+}
+
+/* WebKit (Safari, DuckDuckGo) gives the control its own color-scheme, so the
+   one on :root never reaches the native menu. The menu stays light, inherits
+   the light text color, and the choices disappear. Chrome draws its own menu. */
+select,
+select optgroup,
+select option {
+  color-scheme: dark;
+}
