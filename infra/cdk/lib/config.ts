@@ -20,6 +20,7 @@ export const WAF_SITES = [
   { name: 'sloth', hosts: ['sloth.bubbletech.io'], limit: 1000 },
   { name: 'btfp', hosts: ['badthingsforpets.com', 'www.badthingsforpets.com'], limit: 2000 },
   { name: 'grtzplz', hosts: ['grtzplz.com', 'www.grtzplz.com'], limit: 1000 },
+  { name: 'moonshot', hosts: ['kalshi-moonshot.bubbletech.io'], limit: 1000 },
 ];
 
 // us-east-1 for everything: CloudFront's ACM certificate and CLOUDFRONT-scope WAF must live here.
